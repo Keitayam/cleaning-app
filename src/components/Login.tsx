@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonGroup } from "./atoms/button";
 import { useAuth } from "../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 export const Login = () => {
   const [username, setUserName] = useState("");
@@ -12,7 +15,13 @@ export const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const {login} = useAuth();
+  const { login } = useAuth();
+
+  const [isRevealPassword, setIsRevealPassword] = useState(false);
+
+  const togglePassword = () => {
+    setIsRevealPassword(!isRevealPassword);
+  };
 
   const onClickLogin = async () => {
     setLoading(true);
@@ -29,10 +38,9 @@ export const Login = () => {
       setLoading(false);
       return;
     }
-    login({name: data.name, login_id:data.login_id, role:data.role});
+    login({ name: data.name, login_id: data.login_id, role: data.role });
     navigate("/home");
   };
-
 
   return (
     <>
@@ -52,12 +60,31 @@ export const Login = () => {
             placeholder="Username"
             onChange={(e) => setUserName(e.target.value)}
           />
-          <Input
-            type="password"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <Box position="relative">
+            <Input
+              type={isRevealPassword ? "text" : "password"}
+              value={password}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span
+              onClick={togglePassword}
+              role="presentation"
+              style={{
+                cursor: "pointer",
+                left: "auto",
+                position: "absolute",
+                right: "10px",
+                top: "10px",
+              }}
+            >
+              {isRevealPassword ? (
+                <FontAwesomeIcon icon={faEye} />
+              ) : (
+                <FontAwesomeIcon icon={faEyeSlash} />
+              )}
+            </span>
+          </Box>
           <Text color="red">{errorMessage}</Text>
           <ButtonGroup onClick={onClickLogin} loading={loading}>
             Login
