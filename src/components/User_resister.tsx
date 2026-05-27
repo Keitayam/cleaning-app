@@ -24,21 +24,42 @@ const roles = createListCollection({
 export const UserResister = () => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  
+  const [password, setPassword] = useState({
+    lengthCheck: false,
+    patternCheck: false,
+    input: "",
+  });
+
+  const checkPassword = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    const value = e.target.value;
+
+    const lengthCheck = value.length >= 8;
+    const patternCheck = /[A-Z]/.test(value) && /[0-9]/.test(value);
+  
+    setPassword({lengthCheck,patternCheck,input:value });
+    
+  }
+
   const onClickResister = async () => {
-    if (!userName || !password || !role) {
+    if (!userName || !password.input || !role) {
       setErrorMessage("Please fill in all fields");
+      return;
+    }
+
+    if (!password.lengthCheck || !password.patternCheck) {
+      setErrorMessage("Please follow the password requirements.");
       return;
     }
 
     const { error } = await supabase
       .from("users")
       .insert([
-        { name: name, login_id: userName, password: password, role: role },
+        { name: name, login_id: userName, password: password.input, role: role },
       ]);
 
     if (error) {
@@ -74,9 +95,11 @@ export const UserResister = () => {
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">Password</Text>
           <Input border="1px solid #fff"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            value={password.input}
+            onChange={checkPassword}
+            />
+            {!password.patternCheck && <p>※Please include uppercase letters and numbers.</p>}
+            {!password.lengthCheck && <p>※Please use at least 8 characters.</p>}
         </Box>
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">Role</Text>
