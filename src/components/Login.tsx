@@ -51,7 +51,7 @@ export const Login = () => {
         justifyContent="center"
         height="100vh"
       >
-        <Heading mb="20px">Cleaning App for Motel</Heading>
+        <Heading mb="20px" data-testid="title">Cleaning App for Motel</Heading>
         <Box display="flex" flexDirection="column" gap="10px">
           <Heading>Login from here</Heading>
           <Input
