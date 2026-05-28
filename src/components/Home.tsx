@@ -27,7 +27,7 @@ export const Home = () => {
     <>
       <Container h="100vh">
         <Heading pt="100px" mb="50px">Cleaning App Home</Heading>
-        <Text mb="100px" textAlign="right">Login name: {user.name}</Text>
+        <Text mb="100px" textAlign="right">Login name: {user?.name}</Text>
         <Box display="flex" flexDirection="column" width="25%" mx={"auto"} gap={10}>
           <ButtonGroup onClick={onClickCleaningStatus}>Rooms Status</ButtonGroup>
           {user?.role ==="admin" &&(
