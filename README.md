@@ -1,9 +1,10 @@
 # Motel Cleaning Management App
 
 小規模宿泊事業者（モーテル向け）のための、低コスト清掃管理アプリケーション。
+
 https://cleaning-app-611f3.web.app/
-Test ID: test
-Test pass: Testsite7!
+- Test ID: test
+- Test pass: Testsite7!
 
 # Overview
 
