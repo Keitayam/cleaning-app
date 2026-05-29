@@ -4,42 +4,32 @@ import {
   Container,
   Heading,
   Input,
-  Portal,
-  Select,
+  Switch,
   Text,
+  Textarea,
 } from "@chakra-ui/react";
-import { createListCollection } from "@chakra-ui/react";
+
 import { useState } from "react";
 import { supabase } from "../supabase.Client";
 import { ButtonGroup } from "./atoms/button";
 import { useNavigate } from "react-router-dom";
 
-const roles = createListCollection({
-  items: [
-    { label: "Admin", value: "admin" },
-    { label: "Staff", value: "staff" },
-  ],
-});
-
 export const RoomResister = () => {
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+  const [active, setActive] = useState<boolean>(false);
+  const [note, setNote] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const onClickResister = async () => {
-    if (!userName || !password || !role) {
+    if (!roomNumber) {
       setErrorMessage("Please fill in all fields");
       return;
     }
 
     const { error } = await supabase
-      .from("users")
-      .insert([
-        { name: name, login_id: userName, password: password, role: role },
-      ]);
+      .from("rooms")
+      .insert([{ room_number: roomNumber, is_active: active, note: note }]);
 
     if (error) {
       setErrorMessage("Registration failed. Please try again.");
@@ -48,70 +38,64 @@ export const RoomResister = () => {
 
     setErrorMessage("");
     alert("Registration Complete");
-    navigate("/")
+    navigate("/");
   };
-  
+
   const onClickBack = async () => {
-    navigate("/home")
+    navigate("/home");
   };
 
   return (
     <>
-      <Heading pt="100px" mb="50px">RoomResister</Heading>
+      <Heading pt="100px" mb="50px">
+        RoomResister
+      </Heading>
       <Container pb="100px">
-        <Heading fontSize="md" mb="50px">Resister details</Heading>
+        <Heading fontSize="md" mb="50px">
+          Please fill in the room details
+        </Heading>
         <Box width="50%" mx="auto" mb="30px">
-          <Text color="white" mb="10px" textAlign="left">Name</Text>
-          <Input border="1px solid #fff" value={name} onChange={(e) => setName(e.target.value)} />
-        </Box>
-        <Box width="50%" mx="auto" mb="30px">
-          <Text color="white" mb="10px" textAlign="left">Username</Text>
-          <Input border="1px solid #fff"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+          <Text color="white" mb="10px" textAlign="left">
+            Room Number
+          </Text>
+          <Input
+            border="1px solid #fff"
+            value={roomNumber}
+            onChange={(e) => setRoomNumber(e.target.value)}
           />
         </Box>
         <Box width="50%" mx="auto" mb="30px">
-          <Text color="white" mb="10px" textAlign="left">Password</Text>
-          <Input border="1px solid #fff"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <Text color="white" mb="10px" textAlign="left">
+            Status
+          </Text>
+          <Switch.Root checked={active}
+            onCheckedChange={(e) => setActive(e.checked)}>
+            <Switch.HiddenInput />
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+            <Switch.Label>
+              Active
+            </Switch.Label>
+          </Switch.Root>
         </Box>
         <Box width="50%" mx="auto" mb="30px">
-          <Text color="white" mb="10px" textAlign="left">Role</Text>
-          <Select.Root
-            collection={roles}
-            size="sm"
-            mx="auto"
-            onValueChange={(e) => setRole(e.value[0])}
-          >
-            <Select.HiddenSelect />
-            <Select.Control>
-              <Select.Trigger border="1px solid #fff">
-                <Select.ValueText placeholder="Select role" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>
-            <Portal>
-              <Select.Positioner>
-                <Select.Content>
-                  {roles.items.map((role) => (
-                    <Select.Item item={role} key={role.value}>
-                      {role.label}
-                      <Select.ItemIndicator />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Positioner>
-            </Portal>
-          </Select.Root>
+          <Text color="white" mb="10px" textAlign="left">
+            Note
+          </Text>
+          <Textarea
+            border="1px solid #fff"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
         </Box>
-        <Button color="white" bg="transparent" mb="20px" onClick={onClickBack}>Back</Button>
-        <Text color="white" mb="10px">{errorMessage}</Text>
+        <Text color="white" mb="10px">
+          {errorMessage}
+        </Text>
         <ButtonGroup onClick={onClickResister}>Resister New Room</ButtonGroup>
+        <Button display="block" color="white" bg="transparent" mx="auto" mt="20px" onClick={onClickBack}>
+          Back
+        </Button>
       </Container>
     </>
   );
