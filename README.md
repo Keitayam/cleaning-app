@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+# Motel Cleaning Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+小規模宿泊事業者（モーテル向け）のための、低コスト清掃管理アプリケーション。
 
-Currently, two official plugins are available:
+# Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+ニュージーランド観光地（Queenstown等を想定）にある「30室以下」の小規模モーテルでは、紙や口頭での清掃管理がまだ多く、
+チェックアウト状況や清掃進捗の共有ミスによる業務負担が課題。
+本アプリは、清掃スタッフ・フロントスタッフ・管理者間のコミュニケーションをよりシンプルにし、
+リアルタイムで客室状況を共有できる清掃管理システムです。
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Target
 
-## Expanding the ESLint configuration
+* 客室数30室以下の小規模モーテル事業者
+* 観光地エリアの宿泊施設
+* 清掃管理システムを導入したいが、既存のサービスは高額だと感じている事業者
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 管理者向け機能
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* リアルタイムでの清掃ステータス管理
+* チェックアウト状況(lateチェックアウト等）の確認
+* 客室登録・管理機能
+* スタッフ間の情報共有
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Value Proposition
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* 清掃状況をリアルタイムで把握可能
+* 伝達ミス・清掃漏れを削減
+* 外国人スタッフともスムーズに連携
+* 紙管理から脱却し、業務効率を改善
+
+---
+
+## Differentiation
+
+既存のホテル向け清掃管理システムは、
+
+* 大規模ホテル向け
+* 機能が多すぎる
+* 月額3,000円以上のケースが多い
+
+一方、本サービスは小規模施設に特化し、
+
+* 必要最低限の機能に絞る
+* シンプルなUI
+* 月額1,500〜2,000円程度で導入可能
+という点を差別化ポイントとしています。
+
+---
+
+## Monetization
+
+### 月額サブスクリプションモデル
+
+* 月額: ¥1,500〜¥2,000
+* 小規模事業者でも導入しやすい価格帯
+
+### 導入メリット
+
+* コミュニケーションエラー・ヒューマンエラーの削減
+* 清掃業務の効率化
+* スタッフ間連携の改善
+* 顧客満足度向上
+
+---
+
+# Tech Stack
+
+## Frontend
+* React v19.2.4
+* TypeScript v6.0.2
+* vite v8.0.4
+
+## Backend / BaaS
+* Supabase v2.103.0
+
+## Database
+* PostgreSQL（Supabase）
+
+## UI
+* Chakra UI v3.34.0
+
+## Testing
+* Vitest v4.1.2
+* React Testing Library v16.3.2
+
+---
