@@ -1,7 +1,7 @@
 import { Box, Container, Heading, Text } from "@chakra-ui/react";
-import { ButtonGroup } from "./atoms/button";
+import { ButtonGroup } from "../atoms/button";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export const Home = () => {
   const {user,logout} = useAuth();

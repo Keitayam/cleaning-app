@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Heading,
   Input,
@@ -10,9 +9,10 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-import { supabase } from "../supabase.Client";
-import { ButtonGroup } from "./atoms/button";
+import { supabase } from "../../supabase.Client";
+import { ButtonGroup } from "../atoms/button";
 import { useNavigate } from "react-router-dom";
+import { BackButton } from "../atoms/backButton";
 
 export const RoomResister = () => {
   const [roomNumber, setRoomNumber] = useState("");
@@ -38,7 +38,9 @@ export const RoomResister = () => {
 
     setErrorMessage("");
     alert("Registration Complete");
-    navigate("/");
+    setRoomNumber("");
+    setActive(false);
+    setNote("");
   };
 
   const onClickBack = async () => {
@@ -93,9 +95,7 @@ export const RoomResister = () => {
           {errorMessage}
         </Text>
         <ButtonGroup onClick={onClickResister}>Resister New Room</ButtonGroup>
-        <Button display="block" color="white" bg="transparent" mx="auto" mt="20px" onClick={onClickBack}>
-          Back
-        </Button>
+        <BackButton onClickBack={onClickBack}>Back</BackButton>
       </Container>
     </>
   );

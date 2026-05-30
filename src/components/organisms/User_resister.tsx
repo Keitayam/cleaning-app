@@ -9,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { createListCollection } from "@chakra-ui/react";
 import { useState } from "react";
-import { supabase } from "../supabase.Client";
-import { ButtonGroup } from "./atoms/button";
+import { supabase } from "../../supabase.Client";
+import { ButtonGroup } from "../atoms/button";
 import { useNavigate } from "react-router-dom";
-import { BackButton } from "./atoms/backButton";
+import { BackButton } from "../atoms/backButton";
 
 const roles = createListCollection({
   items: [

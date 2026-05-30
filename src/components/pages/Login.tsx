@@ -1,9 +1,9 @@
 import { Box, Container, Heading, Input, Text } from "@chakra-ui/react";
-import { supabase } from "../supabase.Client";
+import { supabase } from "../../supabase.Client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ButtonGroup } from "./atoms/button";
-import { useAuth } from "../context/AuthContext";
+import { ButtonGroup } from "../atoms/button";
+import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 

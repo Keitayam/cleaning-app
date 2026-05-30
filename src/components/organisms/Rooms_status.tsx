@@ -1,7 +1,7 @@
-import { Box, Container, Heading, Text } from "@chakra-ui/react";
-import { supabase } from "../supabase.Client";
+import { Box, Container, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
+import { supabase } from "../../supabase.Client";
 import { useEffect, useState } from "react";
-import { BackButton } from "./atoms/backButton";
+import { BackButton } from "../atoms/backButton";
 import { useNavigate } from "react-router-dom";
 
 type Room = {
@@ -14,11 +14,14 @@ type Room = {
 
 export const Rooms_status = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     const fetchRooms = async () => {
+      setLoading(true);
       const { data, error } = await supabase
         .from("rooms")
         .select("*")
@@ -27,9 +30,11 @@ export const Rooms_status = () => {
       if (error) {
         console.log(error);
         setErrorMessage("Error fetching rooms");
+        setLoading(false);
         return;
       }
       setRooms(data);
+      setLoading(false);
     };
     fetchRooms();
   }, []);
@@ -44,14 +49,16 @@ export const Rooms_status = () => {
         Rooms_status
       </Heading>
       <Container pb="100px">
-        <Box>
-          <Text>{errorMessage}</Text>
-          {rooms.map((room) => (
-            <div key={room.id}>
-              <Text>{room.room_number}</Text>
-            </div>
-          ))}
-        </Box>
+        {loading ? <Spinner /> : (
+          <Flex gap="10px" justifyContent="center" maxWidth="400px" mx="auto" flexWrap="wrap">
+            <Text>{errorMessage}</Text>
+            {rooms.map((room) => (
+              <Box key={room.id} border="1px solid #fff" p="10px">
+                <Text color="white">{room.room_number}</Text>
+              </Box>
+            ))}
+          </Flex>
+        )}
         <BackButton onClickBack={onClickBack}>Back</BackButton>
       </Container>
     </>
