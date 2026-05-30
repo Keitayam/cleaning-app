@@ -53,7 +53,7 @@ export const Rooms_status = () => {
           <Flex gap="10px" justifyContent="center" maxWidth="400px" mx="auto" flexWrap="wrap">
             <Text>{errorMessage}</Text>
             {rooms.map((room) => (
-              <Box key={room.id} border="1px solid #fff" p="10px">
+              <Box key={room.id} border="1px solid #fff" p="10px" cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}>
                 <Text color="white">{room.room_number}</Text>
               </Box>
             ))}
