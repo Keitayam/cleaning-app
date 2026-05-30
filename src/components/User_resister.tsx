@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Heading,
   Input,
@@ -13,6 +12,7 @@ import { useState } from "react";
 import { supabase } from "../supabase.Client";
 import { ButtonGroup } from "./atoms/button";
 import { useNavigate } from "react-router-dom";
+import { BackButton } from "./atoms/backButton";
 
 const roles = createListCollection({
   items: [
@@ -132,9 +132,9 @@ export const UserResister = () => {
             </Portal>
           </Select.Root>
         </Box>
-        <Button color="white" bg="transparent" mb="20px" onClick={onClickBack}>Back</Button>
         <Text color="white" mb="10px">{errorMessage}</Text>
         <ButtonGroup onClick={onClickResister}>Resister New User</ButtonGroup>
+        <BackButton onClickBack={onClickBack}>Back</BackButton>
       </Container>
     </>
   );
