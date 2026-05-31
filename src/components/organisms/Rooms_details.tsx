@@ -1,4 +1,4 @@
-import { Container, Heading, Spinner, Text } from "@chakra-ui/react";
+import { Box, Container, Heading, Spinner, Text } from "@chakra-ui/react";
 import { supabase } from "../../supabase.Client";
 import { useEffect, useState } from "react";
 import { BackButton } from "../atoms/backButton";
@@ -48,14 +48,21 @@ export const Rooms_details = () => {
   return (
     <>
       <Heading pt="100px" mb="50px">
-        Rooms_status
+        Rooms status
       </Heading>
-      <Container pb="100px">
+      <Container w="40%" mx="auto" pb="100px">
       {room ? (
-      <>
-        <Text>部屋番号: {room.room_number}</Text>
-        <Text>状態: {room.is_active ? "使用中" : "空室"}</Text>
-        <Text>メモ: {room.note}</Text>
+        <>
+        <Text display="block" fontSize="2rem" mb="10">Room Number: {room.room_number}</Text>
+        <Box  p="2" border="1px solid #fff">
+        <Text color ={room.is_active ? "red.400" : "blue.400"}
+        >Status: {room.is_active ? "Occupied" : "Vacant"}</Text>
+    </Box>
+      {room.note && (
+    <Box  p="2" border="1px solid #fff">
+        <Text>Note: {room.note}</Text>
+    </Box>
+      )}
       </>
     ) : (
       <Spinner />
