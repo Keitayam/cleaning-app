@@ -18,6 +18,7 @@ export const RoomResister = () => {
   const [roomNumber, setRoomNumber] = useState("");
   const [active, setActive] = useState<boolean>(false);
   const [note, setNote] = useState("");
+  const [hide, setHide] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ export const RoomResister = () => {
 
     const { error } = await supabase
       .from("rooms")
-      .insert([{ room_number: roomNumber, is_active: active, note: note }]);
+      .insert([{ room_number: roomNumber, is_active: active, note: note, hide: hide }]);
 
     if (error) {
       setErrorMessage("Registration failed. Please try again.");
@@ -41,6 +42,7 @@ export const RoomResister = () => {
     setRoomNumber("");
     setActive(false);
     setNote("");
+    setHide(false);
   };
 
   const onClickBack = async () => {
@@ -94,6 +96,21 @@ export const RoomResister = () => {
         <Text color="white" mb="10px">
           {errorMessage}
         </Text>
+        <Box width="50%" mx="auto" mb="30px">
+          <Text color="white" mb="10px" textAlign="left">
+            Hide
+          </Text>
+          <Switch.Root checked={hide}
+            onCheckedChange={(e) => setHide(e.checked)}>
+            <Switch.HiddenInput />
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+            <Switch.Label>
+              On
+            </Switch.Label>
+          </Switch.Root>
+        </Box>
         <ButtonGroup onClick={onClickResister}>Resister New Room</ButtonGroup>
         <BackButton onClickBack={onClickBack}>Back</BackButton>
       </Container>

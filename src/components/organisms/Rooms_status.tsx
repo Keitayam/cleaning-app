@@ -25,7 +25,8 @@ export const Rooms_status = () => {
       const { data, error } = await supabase
         .from("rooms")
         .select("*")
-        .eq("is_active", true);
+        .eq("hide", false)
+        .order("room_number",{ascending: true});
 
       if (error) {
         console.log(error);
