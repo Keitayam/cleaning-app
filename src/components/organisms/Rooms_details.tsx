@@ -3,6 +3,8 @@ import { supabase } from "../../supabase.Client";
 import { useEffect, useState } from "react";
 import { BackButton } from "../atoms/backButton";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { ButtonGroup } from "../atoms/button";
 
 type Room = {
   id: string;
@@ -14,6 +16,7 @@ type Room = {
 
 export const Rooms_details = () => {
   const {id} = useParams();
+  const {user} = useAuth();
   // const [loading, setLoading] = useState(false);
   // const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -42,13 +45,13 @@ export const Rooms_details = () => {
   }, [id]);
 
   const onClickBack = () => {
-    navigate("/home");
+    navigate(-1);
   };
 
   return (
     <>
       <Heading pt="100px" mb="50px">
-        Rooms status
+        Rooms Status
       </Heading>
       <Container w="40%" mx="auto" pb="100px">
       {room ? (
@@ -62,6 +65,11 @@ export const Rooms_details = () => {
     <Box  p="2" border="1px solid #fff">
         <Text>Note: {room.note}</Text>
     </Box>
+      )}
+      {user?.role === "admin" && (
+         <Box mt="10">
+           <ButtonGroup onClick={()=> navigate(`/rooms/${id}/edit`)}>Edit</ButtonGroup>
+         </Box>
       )}
       </>
     ) : (

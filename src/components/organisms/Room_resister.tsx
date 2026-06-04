@@ -79,7 +79,7 @@ export const RoomResister = () => {
               <Switch.Thumb />
             </Switch.Control>
             <Switch.Label>
-              Active
+              Occupied
             </Switch.Label>
           </Switch.Root>
         </Box>

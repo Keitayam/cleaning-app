@@ -47,14 +47,15 @@ export const Rooms_status = () => {
   return (
     <>
       <Heading pt="100px" mb="50px">
-        Rooms_status
+        Rooms Status
       </Heading>
       <Container pb="100px">
         {loading ? <Spinner /> : (
           <Flex gap="10px" justifyContent="center" maxWidth="400px" mx="auto" flexWrap="wrap">
             <Text>{errorMessage}</Text>
             {rooms.map((room) => (
-              <Box key={room.id} border="1px solid #fff" p="10px" cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}>
+              <Box key={room.id} border="1px solid #fff" p="10px" cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}
+              backgroundColor={room.is_active ?"red.400" :"blue.400"}>
                 <Text color="white">{room.room_number}</Text>
               </Box>
             ))}
