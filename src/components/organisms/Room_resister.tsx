@@ -72,6 +72,8 @@ export const RoomResister = () => {
           <Text color="white" mb="10px" textAlign="left">
             Status
           </Text>
+          <Box width="50%" mx="auto" mb="30px">
+
           <Switch.Root checked={active}
             onCheckedChange={(e) => setActive(e.checked)}>
             <Switch.HiddenInput />
@@ -82,6 +84,7 @@ export const RoomResister = () => {
               Occupied
             </Switch.Label>
           </Switch.Root>
+          </Box>
         </Box>
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">
