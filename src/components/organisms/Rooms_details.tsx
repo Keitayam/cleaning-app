@@ -82,7 +82,7 @@ export const Rooms_details = () => {
     }
 
     setRoom({
-      ...room,
+      id: room!.id,
       room_number: roomUpdateNumber,
       is_active: activeUpdate,
       note: noteUpdate,
@@ -145,7 +145,7 @@ export const Rooms_details = () => {
                             value={roomUpdateNumber}
                             onChange={(e) =>
                               setRoomUpdateNumber(
-                                Number(e.target.value) || null,
+                                Number(e.target.value) || 0,
                               )
                             }
                           />
