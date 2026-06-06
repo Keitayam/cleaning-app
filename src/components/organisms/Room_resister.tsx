@@ -33,6 +33,11 @@ export const RoomResister = () => {
       .insert([{ room_number: roomNumber, is_active: active, note: note, hide: hide }]);
 
     if (error) {
+      if (error.code === "23505") {
+        // ユニーク制約違反（23505） → 重複エラー
+        setErrorMessage("This room number is already registered");
+        return;
+      }
       setErrorMessage("Registration failed. Please try again.");
       return;
     }

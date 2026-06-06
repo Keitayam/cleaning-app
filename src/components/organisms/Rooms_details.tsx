@@ -5,7 +5,6 @@ import {
   Dialog,
   Flex,
   Heading,
-  Input,
   Portal,
   Spinner,
   Switch,
@@ -32,13 +31,11 @@ export const Rooms_details = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [room, setRoom] = useState<Room | null>(null);
-  const [roomUpdateNumber, setRoomUpdateNumber] = useState<number>(
-    room?.room_number || 0,
-  );
   const [activeUpdate, setActiveUpdate] = useState<boolean>(
     room?.is_active || false,
   );
   const [noteUpdate, setNoteUpdate] = useState<string>(room?.note || "");
+  const [isEditOpen,setIsEditOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -54,7 +51,6 @@ export const Rooms_details = () => {
         return;
       }
       setRoom(data);
-      setRoomUpdateNumber(data.room_number);
       setActiveUpdate(data.is_active);
       setNoteUpdate(data.note);
     };
@@ -69,7 +65,6 @@ export const Rooms_details = () => {
     const { error } = await supabase
       .from("rooms")
       .update({
-        room_number: roomUpdateNumber,
         is_active: activeUpdate,
         note: noteUpdate,
       })
@@ -83,12 +78,26 @@ export const Rooms_details = () => {
 
     setRoom({
       id: room!.id,
-      room_number: roomUpdateNumber,
+      room_number: room!.room_number,
       is_active: activeUpdate,
       note: noteUpdate,
     });
     setErrorMessage("");
     alert("Room updated successfully");
+    setIsEditOpen(false);
+
+  };
+
+  const onClickDelete = async () => {
+    const { error } = await supabase.from("rooms").delete().eq("id", id);
+
+    if (error) {
+      setErrorMessage("Error deleting room. Please try again.");
+      return;
+    }
+    setErrorMessage("");
+    alert("Room deleted successfully");
+    navigate("/rooms_status");
   };
 
   return (
@@ -115,13 +124,13 @@ export const Rooms_details = () => {
                 </Box>
               )}
               {user?.role === "admin" && (
-                <Dialog.Root motionPreset="slide-in-bottom">
+                <Dialog.Root motionPreset="slide-in-bottom" open={isEditOpen} onOpenChange={(e) => setIsEditOpen(e.open)}>
                   <Dialog.Trigger asChild>
                     <ButtonGroup
                       onClick={() => {
-                        setRoomUpdateNumber(room.room_number);
                         setActiveUpdate(room.is_active);
                         setNoteUpdate(room.note);
+                        setIsEditOpen(true);
                       }}
                     >
                       Edit{" "}
@@ -130,28 +139,18 @@ export const Rooms_details = () => {
                   <Portal>
                     <Dialog.Backdrop />
                     <Dialog.Positioner>
-                      <Dialog.Content>
+                      <Dialog.Content bg="gray.700">
                         <Dialog.Header>
                           <Dialog.Title>Room Edit</Dialog.Title>
                         </Dialog.Header>
                         <Dialog.Body>
-                          <Text color="white" mb="10px" textAlign="left">
-                            Room Number
-                          </Text>
-                          <Input
-                            display="block"
-                            fontSize="2rem"
-                            mb="10"
-                            value={roomUpdateNumber}
-                            onChange={(e) =>
-                              setRoomUpdateNumber(
-                                Number(e.target.value) || 0,
-                              )
-                            }
-                          />
+                          <Heading color="white" mb="10px" textAlign="left">
+                            Room Number : {room.room_number}
+                          </Heading>
                           <Box width="100%" mx="auto" mb="30px">
                             <Text color="white" mb="10px" textAlign="left">
-                              Status
+                              Status (After clearing the room, please update the
+                              status for vacant)
                             </Text>
                             <Switch.Root
                               checked={activeUpdate}
@@ -175,7 +174,48 @@ export const Rooms_details = () => {
                             border="1px solid #fff"
                             value={noteUpdate}
                             onChange={(e) => setNoteUpdate(e.target.value)}
+                            mb="10px"
                           />
+
+                          <Dialog.Root role="alertdialog">
+                            <Dialog.Trigger asChild>
+                              <ButtonGroup bg="#FF0000" hoverBg="#FA6781">
+                                Delete
+                              </ButtonGroup>
+                            </Dialog.Trigger>
+                            <Portal>
+                              <Dialog.Backdrop />
+                              <Dialog.Positioner>
+                                <Dialog.Content>
+                                  <Dialog.Header>
+                                    <Dialog.Title>Are you sure?</Dialog.Title>
+                                  </Dialog.Header>
+                                  <Dialog.Body>
+                                    <p>
+                                      This action cannot be undone. This will
+                                      permanently delete your account and remove
+                                      your data from our systems.
+                                    </p>
+                                  </Dialog.Body>
+                                  <Dialog.Footer>
+                                    <Dialog.ActionTrigger asChild>
+                                      <ButtonGroup>Cancel</ButtonGroup>
+                                    </Dialog.ActionTrigger>
+                                    <ButtonGroup
+                                      bg="#FF0000"
+                                      hoverBg="#FA6781"
+                                      onClick={onClickDelete}
+                                    >
+                                      Delete
+                                    </ButtonGroup>
+                                  </Dialog.Footer>
+                                  <Dialog.CloseTrigger asChild>
+                                    <CloseButton size="sm" />
+                                  </Dialog.CloseTrigger>
+                                </Dialog.Content>
+                              </Dialog.Positioner>
+                            </Portal>
+                          </Dialog.Root>
                         </Dialog.Body>
                         <Dialog.Footer>
                           <Dialog.ActionTrigger asChild>
