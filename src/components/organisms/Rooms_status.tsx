@@ -3,12 +3,14 @@ import { supabase } from "../../supabase.Client";
 import { useEffect, useState } from "react";
 import { BackButton } from "../atoms/backButton";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 type Room = {
   id: string;
   room_number: number;
   is_active: boolean;
   note: string;
+  hide: boolean;
 };
 
 
@@ -17,16 +19,21 @@ export const Rooms_status = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  
+  const { user } = useAuth();
   useEffect(() => {
     const fetchRooms = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("rooms")
-        .select("*")
-        .eq("hide", false)
-        .order("room_number",{ascending: true});
+
+      const query = supabase
+      .from("rooms")
+      .select("*")
+      .order("room_number",{ascending: true});
+
+      if(user?.role !== "admin"){
+        query.eq("hide", false);
+      }
+
+      const { data, error } = await query
 
       if (error) {
         console.log(error);
@@ -55,7 +62,7 @@ export const Rooms_status = () => {
             <Text>{errorMessage}</Text>
             {rooms.map((room) => (
               <Box key={room.id} border="1px solid #fff" p="10px" cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}
-              backgroundColor={room.is_active ?"red.400" :"blue.400"}>
+              backgroundColor={room.hide ? "gray.400" : room.is_active ? "red.400" : "blue.400"}>
                 <Text color="white">{room.room_number}</Text>
               </Box>
             ))}

@@ -23,6 +23,7 @@ type Room = {
   room_number: number;
   is_active: boolean;
   note: string;
+  hide: boolean;
 };
 
 export const Rooms_details = () => {
@@ -35,7 +36,8 @@ export const Rooms_details = () => {
     room?.is_active || false,
   );
   const [noteUpdate, setNoteUpdate] = useState<string>(room?.note || "");
-  const [isEditOpen,setIsEditOpen] = useState<boolean>(false);
+  const [hideUpdate, setHideUpdate] = useState<boolean>(room?.hide || false);
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -53,6 +55,7 @@ export const Rooms_details = () => {
       setRoom(data);
       setActiveUpdate(data.is_active);
       setNoteUpdate(data.note);
+      setHideUpdate(data.hide);
     };
     fetchRooms();
   }, [id]);
@@ -67,6 +70,7 @@ export const Rooms_details = () => {
       .update({
         is_active: activeUpdate,
         note: noteUpdate,
+        hide: hideUpdate,
       })
       .eq("id", id)
       .single();
@@ -81,11 +85,11 @@ export const Rooms_details = () => {
       room_number: room!.room_number,
       is_active: activeUpdate,
       note: noteUpdate,
+      hide: hideUpdate,
     });
     setErrorMessage("");
     alert("Room updated successfully");
     setIsEditOpen(false);
-
   };
 
   const onClickDelete = async () => {
@@ -124,7 +128,11 @@ export const Rooms_details = () => {
                 </Box>
               )}
               {user?.role === "admin" && (
-                <Dialog.Root motionPreset="slide-in-bottom" open={isEditOpen} onOpenChange={(e) => setIsEditOpen(e.open)}>
+                <Dialog.Root
+                  motionPreset="slide-in-bottom"
+                  open={isEditOpen}
+                  onOpenChange={(e) => setIsEditOpen(e.open)}
+                >
                   <Dialog.Trigger asChild>
                     <ButtonGroup
                       onClick={() => {
@@ -176,6 +184,19 @@ export const Rooms_details = () => {
                             onChange={(e) => setNoteUpdate(e.target.value)}
                             mb="10px"
                           />
+
+                          <Switch.Root
+                            checked={hideUpdate}
+                            onCheckedChange={(e) => setHideUpdate(e.checked)}
+                            width="100%"
+                            justifyContent="center"
+                          >
+                            <Switch.HiddenInput />
+                            <Switch.Control>
+                              <Switch.Thumb />
+                            </Switch.Control>
+                            <Switch.Label>Hide</Switch.Label>
+                          </Switch.Root>
 
                           <Dialog.Root role="alertdialog">
                             <Dialog.Trigger asChild>
