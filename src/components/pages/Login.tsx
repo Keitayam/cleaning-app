@@ -51,7 +51,7 @@ export const Login = () => {
         justifyContent="center"
         height="100vh"
       >
-        <Heading mb="20px" data-testid="title">Cleaning App for Motel</Heading>
+        <Heading mb="20px" data-testId="title">Cleaning App for Motel</Heading>
         <Box display="flex" flexDirection="column" gap="10px">
           <Heading>Login from here</Heading>
           <Input
@@ -59,6 +59,7 @@ export const Login = () => {
             value={username}
             placeholder="Username"
             onChange={(e) => setUserName(e.target.value)}
+            data-testId="username"
           />
           <Box position="relative">
             <Input
@@ -66,6 +67,7 @@ export const Login = () => {
               value={password}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
+              data-testId="password"
             />
             <span
               onClick={togglePassword}
