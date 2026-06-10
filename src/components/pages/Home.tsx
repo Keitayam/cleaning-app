@@ -26,8 +26,8 @@ export const Home = () => {
   return (
     <>
       <Container h="100vh">
-        <Heading pt="100px" mb="50px">Cleaning App Home</Heading>
-        <Text mb="100px" textAlign="right">Login name: {user?.name}</Text>
+        <Heading pt="100px" mb="50px" data-testId="title">Cleaning App Home</Heading>
+        <Text mb="100px" textAlign="right" data-testId="username">Login name: {user?.name}</Text>
         <Box display="flex" flexDirection="column" width="25%" mx={"auto"} gap={10}>
           <ButtonGroup onClick={onClickCleaningStatus}>Rooms Status</ButtonGroup>
           {user?.role ==="admin" &&(
