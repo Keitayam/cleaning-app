@@ -7,7 +7,7 @@ import { vi } from "vitest";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import React from "react";
 
-test("タイトルあるか", () => {
+test("タイトルが表示されている", () => {
   render(<App />);
   expect(screen.getByTestId("title")).toHaveTextContent(
     "Cleaning App for Motel",
