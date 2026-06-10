@@ -7,9 +7,10 @@ type Props = {
   loading?: boolean;
   bg?: ButtonProps["bg"]
   hoverBg?: string;
+  disable?: boolean
 };
 
-export const ButtonGroup = ({ children, onClick, loading, bg="#2973B2", hoverBg="#48A6A7" }: Props) => {
+export const ButtonGroup = ({ children, onClick, loading, bg="#2973B2", hoverBg="#48A6A7",disable}: Props) => {
   return (
     <Button
       bg={bg}
@@ -17,6 +18,7 @@ export const ButtonGroup = ({ children, onClick, loading, bg="#2973B2", hoverBg=
       _hover={{ bg: hoverBg }}
       onClick={onClick}
       loading={loading}
+      disabled={disable}
     >
       {children}
     </Button>

@@ -14,10 +14,13 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { login } = useAuth();
 
   const [isRevealPassword, setIsRevealPassword] = useState(false);
+
+  const isEmpty = username === "" || password === "";
 
   const togglePassword = () => {
     setIsRevealPassword(!isRevealPassword);
@@ -25,6 +28,8 @@ export const Login = () => {
 
   const onClickLogin = async () => {
     setLoading(true);
+    if(isSubmitting) return;
+    setIsSubmitting(true);
 
     const { data, error } = await supabase
       .from("users")
@@ -36,6 +41,7 @@ export const Login = () => {
     if (error || !data) {
       setErrorMessage("Invalid userid or password");
       setLoading(false);
+      setIsSubmitting(false);
       return;
     }
     login({ name: data.name, login_id: data.login_id, role: data.role });
@@ -88,7 +94,7 @@ export const Login = () => {
             </span>
           </Box>
           <Text color="red">{errorMessage}</Text>
-          <ButtonGroup onClick={onClickLogin} loading={loading}>
+          <ButtonGroup onClick={onClickLogin} loading={loading} disable={isEmpty||isSubmitting}>
             Login
           </ButtonGroup>
         </Box>
