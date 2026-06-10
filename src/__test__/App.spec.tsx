@@ -62,3 +62,33 @@ test("ログインが正常に可能か", async () => {
   await user.click(screen.getByText("Login"));
   expect(mockNavigate).toHaveBeenCalledWith("/home");
 });
+
+test("disableが機能する",async()=>{
+  render(
+    <ChakraProvider value={defaultSystem}>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    </ChakraProvider>,
+  );
+ expect(screen.getByRole('button')).toBeDisabled();
+ 
+})
+
+test("disableがオフになる",async()=>{
+  const user = userEvent.setup(); 
+
+  render(
+    <ChakraProvider value={defaultSystem}>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    </ChakraProvider>,
+  );
+  expect(screen.getByRole('button')).toBeDisabled();
+
+  await user.type(screen.getByTestId("username"), "test");
+  await user.type(screen.getByTestId("password"), "Testsite7!");
+ expect(screen.getByRole('button')).toBeEnabled();
+ 
+})
