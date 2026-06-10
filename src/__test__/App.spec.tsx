@@ -53,7 +53,7 @@ describe("Loginページ", () => {
         <MemoryRouter>
           <Login />
         </MemoryRouter>
-      </ChakraProvider>,
+      </ChakraProvider>
     );
   });
 
