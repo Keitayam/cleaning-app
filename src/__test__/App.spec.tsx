@@ -26,69 +26,55 @@ vi.mock("react-router-dom", async () => {
 const mockLogin = vi.fn();
 vi.mock("../context/AuthContext", () => ({
   useAuth: () => ({ login: mockLogin }),
-  AuthProvider:({children}:{children: React.ReactNode}) => children,
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 vi.mock("../supabase.Client", () => ({
-    supabase: {
-      from: () => ({
-        select: () => ({
+  supabase: {
+    from: () => ({
+      select: () => ({
+        eq: () => ({
           eq: () => ({
-            eq: () => ({
-              single: async () => ({
-                data: { name: "test", login_id: "test", role: "admin" },
-                error: null,
-              }),
+            single: async () => ({
+              data: { name: "test", login_id: "test", role: "admin" },
+              error: null,
             }),
           }),
         }),
       }),
-    },
-  }));
+    }),
+  },
+}));
 
-test("ログインが正常に可能か", async () => {
-    const user = userEvent.setup(); 
-  render(
-    <ChakraProvider value={defaultSystem}>
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    </ChakraProvider>,
-  );
+describe("Loginページ", () => {
+  beforeEach(() => {
+    render(
+      <ChakraProvider value={defaultSystem}>
+        <MemoryRouter>
+          <Login />
+        </MemoryRouter>
+      </ChakraProvider>,
+    );
+  });
 
-  await user.type(screen.getByTestId("username"), "test");
-  await user.type(screen.getByTestId("password"), "Testsite7!");
+  test("ログインが正常に可能か", async () => {
+    const user = userEvent.setup();
+    await user.type(screen.getByTestId("username"), "test");
+    await user.type(screen.getByTestId("password"), "Testsite7!");
+    await user.click(screen.getByText("Login"));
+    expect(mockNavigate).toHaveBeenCalledWith("/home");
+  });
 
-  await user.click(screen.getByText("Login"));
-  expect(mockNavigate).toHaveBeenCalledWith("/home");
+  test("disableが機能する", async () => {
+    expect(screen.getByRole("button")).toBeDisabled();
+  });
+
+  test("disableがオフになる", async () => {
+    const user = userEvent.setup();
+    expect(screen.getByRole("button")).toBeDisabled();
+
+    await user.type(screen.getByTestId("username"), "test");
+    await user.type(screen.getByTestId("password"), "Testsite7!");
+    expect(screen.getByRole("button")).toBeEnabled();
+  });
 });
-
-test("disableが機能する",async()=>{
-  render(
-    <ChakraProvider value={defaultSystem}>
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    </ChakraProvider>,
-  );
- expect(screen.getByRole('button')).toBeDisabled();
- 
-})
-
-test("disableがオフになる",async()=>{
-  const user = userEvent.setup(); 
-
-  render(
-    <ChakraProvider value={defaultSystem}>
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    </ChakraProvider>,
-  );
-  expect(screen.getByRole('button')).toBeDisabled();
-
-  await user.type(screen.getByTestId("username"), "test");
-  await user.type(screen.getByTestId("password"), "Testsite7!");
- expect(screen.getByRole('button')).toBeEnabled();
- 
-})
