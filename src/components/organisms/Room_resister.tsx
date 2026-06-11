@@ -56,8 +56,8 @@ export const RoomResister = () => {
 
   return (
     <>
-      <Heading pt="100px" mb="50px">
-        RoomResister
+      <Heading pt="100px" mb="50px" data-testId="title">
+        Room Resister Page
       </Heading>
       <Container pb="100px">
         <Heading fontSize="md" mb="50px">
