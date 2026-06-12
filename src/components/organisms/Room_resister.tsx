@@ -71,6 +71,7 @@ export const RoomResister = () => {
             border="1px solid #fff"
             value={roomNumber}
             onChange={(e) => setRoomNumber(e.target.value)}
+            data-testId="roomNumber"
           />
         </Box>
         <Box width="50%" mx="auto" mb="30px">
@@ -101,9 +102,6 @@ export const RoomResister = () => {
             onChange={(e) => setNote(e.target.value)}
           />
         </Box>
-        <Text color="white" mb="10px">
-          {errorMessage}
-        </Text>
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">
             Hide
@@ -119,6 +117,9 @@ export const RoomResister = () => {
             </Switch.Label>
           </Switch.Root>
         </Box>
+        <Text color="white" mb="10px">
+          {errorMessage}
+        </Text>
         <ButtonGroup onClick={onClickResister}>Resister New Room</ButtonGroup>
         <BackButton onClickBack={onClickBack}>Back</BackButton>
       </Container>

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import { MemoryRouter} from "react-router-dom"
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
 import { RoomResister } from "../components/organisms/Room_resister"
@@ -23,6 +23,27 @@ vi.mock("react-router-dom",async()=>{
     }
 })
 
+
+vi.mock("../supabase.Client", () => ({
+    supabase: {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            eq: () => ({
+              single: async () => ({
+                data: { name: "test", login_id: "test", role: "admin" },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+        insert:async()=>({
+          error: null,
+        })
+      }),
+    },
+  }));
+
 describe("RoomResisterページ", ()=>{
     beforeEach(()=>{
         mockNavigate.mockClear();
@@ -37,6 +58,17 @@ describe("RoomResisterページ", ()=>{
 
     test("Homeタイトルがある",()=>{
         expect(screen.getByTestId("title")).toHaveTextContent("Room Resister Page")
+    })
+
+    test("部屋の登録ができる",async()=>{
+        const user = userEvent.setup();
+        const alertMock = vi.spyOn(window,"alert").mockImplementation(()=>{}) //アラートのモック
+        await user.type(screen.getByTestId("roomNumber"),"101")
+        await user.click(screen.getByText("Resister New Room"))
+        await waitFor(() => {
+            expect(alertMock).toHaveBeenCalledWith("Registration Complete");
+          });
+        alertMock.mockRestore();
     })
 
     test("戻るボタンが機能する",async()=>{
