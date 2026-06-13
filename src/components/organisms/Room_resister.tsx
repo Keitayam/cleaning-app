@@ -100,6 +100,7 @@ export const RoomResister = () => {
             border="1px solid #fff"
             value={note}
             onChange={(e) => setNote(e.target.value)}
+            data-testId="note"
           />
         </Box>
         <Box width="50%" mx="auto" mb="30px">
@@ -113,7 +114,7 @@ export const RoomResister = () => {
               <Switch.Thumb />
             </Switch.Control>
             <Switch.Label>
-              On
+             Hide
             </Switch.Label>
           </Switch.Root>
         </Box>

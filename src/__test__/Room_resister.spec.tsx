@@ -60,6 +60,34 @@ describe("RoomResisterページ", ()=>{
         expect(screen.getByTestId("title")).toHaveTextContent("Room Resister Page")
     })
 
+    test("部屋番号の入力ができる",async()=>{
+        const user = userEvent.setup();
+        await user.type(screen.getByTestId("roomNumber"),"101")
+        expect(screen.getByTestId("roomNumber")).toHaveValue("101");
+    })
+
+    test("状況のスイッチが動作する",async()=>{
+        const user = userEvent.setup();
+        const switchInput = screen.getByRole("checkbox",{name:"Occupied"});
+        expect(switchInput).not.toBeChecked();
+        await user.click(switchInput);
+        expect(switchInput).toBeChecked();
+    })
+
+    test("Hideのスイッチが動作する",async()=>{
+        const user = userEvent.setup();
+        await user.type(screen.getByTestId("note"),"Under construction")
+        expect(screen.getByTestId("note")).toHaveValue("Under construction");
+    })
+
+    test("Hideのスイッチが動作する",async()=>{
+        const user = userEvent.setup();
+        const switchInput = screen.getByRole("checkbox",{name:"Hide"});
+        expect(switchInput).not.toBeChecked();
+        await user.click(switchInput);
+        expect(switchInput).toBeChecked();
+    })
+
     test("部屋の登録ができる",async()=>{
         const user = userEvent.setup();
         const alertMock = vi.spyOn(window,"alert").mockImplementation(()=>{}) //アラートのモック
