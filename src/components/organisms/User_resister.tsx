@@ -78,16 +78,17 @@ export const UserResister = () => {
 
   return (
     <>
-      <Heading pt="100px" mb="50px">UserResister</Heading>
+      <Heading pt="100px" mb="50px" data-testId="title">User Resister Page</Heading>
       <Container pb="100px">
         <Heading fontSize="md" mb="50px">Resister details</Heading>
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">Name</Text>
-          <Input border="1px solid #fff" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input border="1px solid #fff" data-testId="name" value={name} onChange={(e) => setName(e.target.value)} />
         </Box>
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">Username</Text>
           <Input border="1px solid #fff"
+          data-testId="userName"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -95,6 +96,7 @@ export const UserResister = () => {
         <Box width="50%" mx="auto" mb="30px">
           <Text color="white" mb="10px" textAlign="left">Password</Text>
           <Input border="1px solid #fff"
+          data-testId="password"
             value={password.input}
             onChange={checkPassword}
             />
@@ -111,7 +113,7 @@ export const UserResister = () => {
           >
             <Select.HiddenSelect />
             <Select.Control>
-              <Select.Trigger border="1px solid #fff">
+              <Select.Trigger border="1px solid #fff"  data-testId="role-trigger">
                 <Select.ValueText placeholder="Select role" />
               </Select.Trigger>
               <Select.IndicatorGroup>

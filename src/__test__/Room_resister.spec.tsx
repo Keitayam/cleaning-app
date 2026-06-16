@@ -74,7 +74,7 @@ describe("RoomResisterページ", ()=>{
         expect(switchInput).toBeChecked();
     })
 
-    test("Hideのスイッチが動作する",async()=>{
+    test("Noteの入力ができる",async()=>{
         const user = userEvent.setup();
         await user.type(screen.getByTestId("note"),"Under construction")
         expect(screen.getByTestId("note")).toHaveValue("Under construction");
