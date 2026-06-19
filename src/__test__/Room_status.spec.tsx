@@ -63,6 +63,13 @@ describe("RoomsStatusページ", ()=>{
         expect(screen.getByTestId("room_number_inactive")).toHaveTextContent("102")
     })
 
+    test("クリックすると部屋詳細が表示される",async()=>{
+      const user = userEvent.setup()
+      const room = await screen.findByTestId("room_number_active")
+      await user.click(room)
+      expect(mockNavigate).toHaveBeenCalledWith("/rooms/1")
+    })
+
     test("戻るボタンが機能する",async()=>{
         const user = userEvent.setup();
         await user.click(screen.getByText("Back"))
