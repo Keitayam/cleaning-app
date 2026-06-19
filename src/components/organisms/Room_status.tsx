@@ -14,7 +14,7 @@ type Room = {
 };
 
 
-export const Rooms_status = () => {
+export const Room_status = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

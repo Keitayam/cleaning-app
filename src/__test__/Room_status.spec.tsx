@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { MemoryRouter} from "react-router-dom"
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
 import userEvent from "@testing-library/user-event";
-import { Rooms_status } from "../components/organisms/Rooms_status";
+import { Room_status } from "../components/organisms/Room_status";
 
 
 const mockLogout =vi.fn();
@@ -46,7 +46,7 @@ describe("RoomsStatusページ", ()=>{
         render(
             <ChakraProvider value={defaultSystem}>
         <MemoryRouter>
-          <Rooms_status />
+          <Room_status />
         </MemoryRouter>
       </ChakraProvider>
         )
