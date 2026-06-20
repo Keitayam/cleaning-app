@@ -53,7 +53,7 @@ export const Rooms_status = () => {
 
   return (
     <>
-      <Heading pt="100px" mb="50px">
+      <Heading pt="100px" mb="50px" data-testid="title">
         Rooms Status
       </Heading>
       <Container pb="100px">
@@ -61,7 +61,7 @@ export const Rooms_status = () => {
           <Flex gap="10px" justifyContent="center" maxWidth="400px" mx="auto" flexWrap="wrap">
             <Text>{errorMessage}</Text>
             {rooms.map((room) => (
-              <Box key={room.id} border="1px solid #fff" p="10px" cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}
+              <Box key={room.id} border="1px solid #fff" p="10px" data-testid={`room_number_${room.is_active ? "active" : "inactive"}`} cursor="pointer" onClick={()=> navigate(`/rooms/${room.id}`)}
               backgroundColor={room.hide ? "gray.400" : room.is_active ? "red.400" : "blue.400"}>
                 <Text color="white">{room.room_number}</Text>
               </Box>
