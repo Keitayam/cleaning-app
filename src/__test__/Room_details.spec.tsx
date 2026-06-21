@@ -30,9 +30,8 @@ vi.mock("../supabase.Client", () => ({
         select: () => ({
           eq:()=>({
             single:() =>({
-              data: [
-                { id: 1, room_number: "101", is_active: true, hide: false },
-              ],
+              data: 
+                { id: 1, room_number: "101", is_active: true, note: "This is test", hide: false },
               error:null,
             })
           })
@@ -55,6 +54,22 @@ describe("RoomsDetailsページ", ()=>{
 
     test("RoomsDetailsタイトルがある",()=>{
         expect(screen.getByTestId("title")).toHaveTextContent("Room Details")
+    })
+
+    test("部屋番号が正常に表示されている",async()=>{
+      expect(await screen.findByTestId("roomNumber")).toHaveTextContent("101")
+    })
+
+    test("ステータスが正常に表示されている",async()=>{
+      expect(await screen.findByTestId("status")).toHaveTextContent("Status: Occupied")
+    })
+
+    test("noteが正常に表示されている",async()=>{
+      expect(await screen.findByTestId("note")).toHaveTextContent("This is test")
+    })
+
+    test("管理者の場合は編集ボタンが表示されている",async()=>{
+      expect(await screen.findByText("Edit")).toBeInTheDocument()
     })
 
 
