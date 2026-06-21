@@ -107,7 +107,7 @@ export const Room_details = () => {
   return (
     <>
       <Heading pt="100px" mb="50px" data-testId="title">
-        Rooms Details
+        Room Details
       </Heading>
       <Container w="40%" mx="auto" pb="100px">
         <Text>{errorMessage}</Text>
