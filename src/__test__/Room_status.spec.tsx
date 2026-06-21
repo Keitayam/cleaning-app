@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { MemoryRouter} from "react-router-dom"
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
 import userEvent from "@testing-library/user-event";
-import { Rooms_status } from "../components/organisms/Rooms_status";
+import { Room_status } from "../components/organisms/Room_status";
 
 
 const mockLogout =vi.fn();
@@ -46,7 +46,7 @@ describe("RoomsStatusページ", ()=>{
         render(
             <ChakraProvider value={defaultSystem}>
         <MemoryRouter>
-          <Rooms_status />
+          <Room_status />
         </MemoryRouter>
       </ChakraProvider>
         )
@@ -61,6 +61,13 @@ describe("RoomsStatusページ", ()=>{
         expect(rooms).toHaveLength(2);
         expect(screen.getByTestId("room_number_active")).toHaveTextContent("101")
         expect(screen.getByTestId("room_number_inactive")).toHaveTextContent("102")
+    })
+
+    test("クリックすると部屋詳細が表示される",async()=>{
+      const user = userEvent.setup()
+      const room = await screen.findByTestId("room_number_active")
+      await user.click(room)
+      expect(mockNavigate).toHaveBeenCalledWith("/rooms/1")
     })
 
     test("戻るボタンが機能する",async()=>{
