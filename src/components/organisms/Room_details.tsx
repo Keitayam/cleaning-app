@@ -26,7 +26,7 @@ type Room = {
   hide: boolean;
 };
 
-export const Rooms_details = () => {
+export const Room_details = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
@@ -106,8 +106,8 @@ export const Rooms_details = () => {
 
   return (
     <>
-      <Heading pt="100px" mb="50px">
-        Rooms Status
+      <Heading pt="100px" mb="50px" data-testId="title">
+        Room Details
       </Heading>
       <Container w="40%" mx="auto" pb="100px">
         <Text>{errorMessage}</Text>
