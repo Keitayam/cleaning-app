@@ -113,25 +113,25 @@ export const Room_details = () => {
         <Text>{errorMessage}</Text>
         {room ? (
           <>
-            <Text display="block" fontSize="2rem" mb="10">
+            <Text display="block" fontSize="2rem" mb="10" data-testid="roomNumber">
               Room Number: {room.room_number}
             </Text>
             <Flex gap="10px" flexDirection="column">
               <Box p="2" border="1px solid #fff">
-                <Text color={room.is_active ? "red.400" : "blue.400"}>
+                <Text data-testid="status" color={room.is_active ? "red.400" : "blue.400"}>
                   Status: {room.is_active ? "Occupied" : "Vacant"}
                 </Text>
               </Box>
               {room.note && (
                 <Box p="2" border="1px solid #fff">
-                  <Text>Note: {room.note}</Text>
+                  <Text data-testid="note">Note: {room.note}</Text>
                 </Box>
               )}
               {user?.role === "admin" && (
                 <Dialog.Root
-                  motionPreset="slide-in-bottom"
-                  open={isEditOpen}
-                  onOpenChange={(e) => setIsEditOpen(e.open)}
+                motionPreset="slide-in-bottom"
+                open={isEditOpen}
+                onOpenChange={(e) => setIsEditOpen(e.open)}
                 >
                   <Dialog.Trigger asChild>
                     <ButtonGroup

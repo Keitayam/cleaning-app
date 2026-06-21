@@ -29,10 +29,11 @@ vi.mock("../supabase.Client", () => ({
       from: () => ({
         select: () => ({
           eq:()=>({
-            data: [
-              { id: 1, room_number: "101", is_active: true, hide: false },
-            ],
-            error:null,
+            single:() =>({
+              data: 
+                { id: 1, room_number: "101", is_active: true, note: "This is test", hide: false },
+              error:null,
+            })
           })
         }),
       }),
@@ -55,12 +56,22 @@ describe("RoomsDetailsページ", ()=>{
         expect(screen.getByTestId("title")).toHaveTextContent("Room Details")
     })
 
-    test("部屋番号と色が認識できる", async()=>{
-      const rooms = await screen.findAllByTestId(/room_number/)
-        expect(rooms).toHaveLength(2);
-        expect(screen.getByTestId("room_number_active")).toHaveTextContent("101")
-        expect(screen.getByTestId("room_number_inactive")).toHaveTextContent("102")
+    test("部屋番号が正常に表示されている",async()=>{
+      expect(await screen.findByTestId("roomNumber")).toHaveTextContent("101")
     })
+
+    test("ステータスが正常に表示されている",async()=>{
+      expect(await screen.findByTestId("status")).toHaveTextContent("Status: Occupied")
+    })
+
+    test("noteが正常に表示されている",async()=>{
+      expect(await screen.findByTestId("note")).toHaveTextContent("This is test")
+    })
+
+    test("管理者の場合は編集ボタンが表示されている",async()=>{
+      expect(await screen.findByText("Edit")).toBeInTheDocument()
+    })
+
 
     test("戻るボタンが機能する",async()=>{
         const user = userEvent.setup();
