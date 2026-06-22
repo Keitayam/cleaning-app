@@ -109,11 +109,11 @@ export const Room_details = () => {
       <Heading pt="100px" mb="50px" data-testId="title">
         Room Details
       </Heading>
-      <Container w="40%" mx="auto" pb="100px">
+      <Container w="80%" mx="auto" pb="100px">
         <Text>{errorMessage}</Text>
         {room ? (
           <>
-            <Text display="block" fontSize="2rem" mb="10" data-testid="roomNumber">
+            <Text display="block" color="white" fontSize="2rem" mb="10" data-testid="roomNumber">
               Room Number: {room.room_number}
             </Text>
             <Flex gap="10px" flexDirection="column">
@@ -124,11 +124,12 @@ export const Room_details = () => {
               </Box>
               {room.note && (
                 <Box p="2" border="1px solid #fff">
-                  <Text data-testid="note">Note: {room.note}</Text>
+                  <Text color="white" data-testid="note">Note: {room.note}</Text>
                 </Box>
               )}
               {user?.role === "admin" && (
                 <Dialog.Root
+                role="dialog"
                 motionPreset="slide-in-bottom"
                 open={isEditOpen}
                 onOpenChange={(e) => setIsEditOpen(e.open)}
@@ -172,14 +173,16 @@ export const Room_details = () => {
                               <Switch.Control>
                                 <Switch.Thumb />
                               </Switch.Control>
-                              <Switch.Label>Occupied</Switch.Label>
+                              <Switch.Label aria-label="active" color="white">Occupied</Switch.Label>
                             </Switch.Root>
                           </Box>
                           <Text color="white" mb="10px" textAlign="left">
                             Note
                           </Text>
                           <Textarea
+                          color="white"
                             border="1px solid #fff"
+                            role="textbox"
                             value={noteUpdate}
                             onChange={(e) => setNoteUpdate(e.target.value)}
                             mb="10px"
@@ -195,7 +198,7 @@ export const Room_details = () => {
                             <Switch.Control>
                               <Switch.Thumb />
                             </Switch.Control>
-                            <Switch.Label>Hide</Switch.Label>
+                            <Switch.Label color="white">Hide</Switch.Label>
                           </Switch.Root>
 
                           <Dialog.Root role="alertdialog">
@@ -212,11 +215,11 @@ export const Room_details = () => {
                                     <Dialog.Title>Are you sure?</Dialog.Title>
                                   </Dialog.Header>
                                   <Dialog.Body>
-                                    <p>
+                                    <Text color="white">
                                       This action cannot be undone. This will
                                       permanently delete your account and remove
                                       your data from our systems.
-                                    </p>
+                                    </Text>
                                   </Dialog.Body>
                                   <Dialog.Footer>
                                     <Dialog.ActionTrigger asChild>

@@ -71,13 +71,51 @@ describe("RoomsDetailsページ", ()=>{
     test("管理者の場合は編集ボタンが表示されている",async()=>{
       expect(await screen.findByText("Edit")).toBeInTheDocument()
     })
-
-
+  
     test("戻るボタンが機能する",async()=>{
         const user = userEvent.setup();
         await user.click(screen.getByText("Back"))
         expect(mockNavigate).toHaveBeenCalledWith(-1)
     })
 
+    //Popup内のテスト
+    
+    describe("編集POPUP内処理",()=>{
+      async function openEditDialog(){
+        const user = userEvent.setup();
+        await user.click(await screen.findByText("Edit"));
+        return user;
+        
+      }
+
+      test("編集ボタンを押すとPOPUPが表示される",async()=>{
+        expect (screen.queryByText("Room Edit")).not.toBeInTheDocument();
+  
+        await openEditDialog();
+        expect (await screen.findByText("Room Edit")).toBeInTheDocument();
+        expect(await screen.findByRole("dialog")).toBeInTheDocument();
+      })
+
+      test("部屋番号がPOPUP内に表示される",async()=>{
+        await openEditDialog();
+        expect(await screen.findByText("Room Number: 101")).toBeInTheDocument();
+      })
+
+      test("activeの編集をしてsaveできる",async()=>{
+        const user = await openEditDialog();
+        const switchInput =await screen.findByRole("checkbox",{name:"active"});
+        expect(switchInput).toBeChecked();
+        await user.click(switchInput);
+        expect(switchInput).not.toBeChecked();
+      })
+
+      test("Noteの編集をしてSaveできる",async()=>{
+        const user = await openEditDialog();
+        const textarea =await screen.findByRole("textbox");
+        await user.clear(textarea);
+        await user.type(textarea,"New note");
+        expect(textarea).toHaveValue("New note");
+      })
+    })
     
 })
