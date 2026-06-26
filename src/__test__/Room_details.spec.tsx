@@ -116,6 +116,13 @@ describe("RoomsDetailsページ", ()=>{
         await user.type(textarea,"New note");
         expect(textarea).toHaveValue("New note");
       })
+
+      test("deleteをクリックしたらさらにポップアップが開く",async()=>{
+        const user = await openEditDialog();
+        await user.click(await screen.findByText("Delete"))
+        expect(await screen.findByRole("alertdialog")).toBeInTheDocument();
+
+      })
     })
     
 })
