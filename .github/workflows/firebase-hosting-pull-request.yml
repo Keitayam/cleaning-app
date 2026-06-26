@@ -25,8 +25,8 @@ jobs:
       - run: npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
+        continue-on-error: true
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLEANING_APP_611F3 }}
           projectId: cleaning-app-611f3
-          continue-on-error: true
