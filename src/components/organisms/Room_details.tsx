@@ -227,7 +227,7 @@ export const Room_details = () => {
                                     </Dialog.ActionTrigger>
                                     <ButtonGroup
                                       bg="#FF0000"
-                                      hoverBg="#FA6781"
+                                      hoverBg="#FA6782"
                                       onClick={onClickDelete}
                                     >
                                       Delete
