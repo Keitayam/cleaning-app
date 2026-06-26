@@ -92,7 +92,7 @@ describe("UserResisterページ", ()=>{
 
     test("Userの登録ができる",async()=>{
         const user = userEvent.setup();
-        const alertMock = vi.spyOn(window,"alert").mockImplementation(()=>{}) //アラートのモック
+        const alertMock = vi.spyOn(window,"alert").mockImplementation(()=>{}) //アラートモック
         await user.type(screen.getByTestId("name"),"Zhang")
         await user.type(screen.getByTestId("userName"),"Zhangs")
         await user.type(screen.getByTestId("password"),"Testsite7!")
